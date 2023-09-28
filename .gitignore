@@ -1,0 +1,6 @@
+# Archivos y directorios de node_modules (npm o yarn)
+node_modules/
+
+# Directorio vendor de Composer
+/vendor/
+.env

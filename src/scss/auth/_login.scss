@@ -1,0 +1,28 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.login {
+    h1 {
+        text-align: center;
+        margin-top: 5rem;
+        font-size: 7rem;
+        background: linear-gradient(to right, v.$cyan, lighten(v.$cyan, 30%));
+        color: transparent;
+        background-clip: text;
+        @include m.tablet {
+            font-size: 10rem;
+        }
+    }
+
+    .boton {
+        @include m.boton(v.$cyan, v.$blanco);
+    }
+
+    a {
+        color: darken(v.$cyan, 5%);
+        font-weight: 900;
+        &:hover {
+            color: darken(v.$cyan, 20%)
+        }
+    }
+}

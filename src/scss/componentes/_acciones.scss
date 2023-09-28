@@ -1,0 +1,28 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    @include m.tablet {
+        font-size: 1.6rem;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    p {
+        margin: 0;
+        font-size: 1.5rem;
+        @include m.tablet {
+            font-size: 1.6rem;
+        }
+    }
+    a {
+        font-weight: bold;
+        &:hover {
+            color: lighten(#551A8B, 30%)
+        }
+    }
+}
