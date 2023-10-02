@@ -1,6 +1,6 @@
 @use 'base/mixins' as m;
 @use 'base/variables' as v;
 
-.login {
-    @include m.colorGradiente(v.$cyan);
+.mensaje {
+    @include m.colorGradiente(v.$naranja);
 }

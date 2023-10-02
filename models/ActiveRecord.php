@@ -9,6 +9,10 @@ class ActiveRecord {
 
     // Alertas y Mensajes
     protected static $alertas = [];
+
+    // PHP 8.1/8.2
+    public $id;
+
     
     // Definir la conexión a la BD - includes/database.php
     public static function setDB($database) {
@@ -49,21 +53,21 @@ class ActiveRecord {
 
     // Busca un registro por su id
     public static function find($id) {
-        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = ${id}";
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = {$id}";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
 
     // Obtener Registro
     public static function get($limite) {
-        $query = "SELECT * FROM " . static::$tabla . " LIMIT ${limite}";
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT {$limite}";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
 
     // Busqueda Where con Columna 
     public static function where($columna, $valor) {
-        $query = "SELECT * FROM " . static::$tabla . " WHERE ${columna} = '${valor}'";
+        $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }

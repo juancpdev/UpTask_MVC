@@ -1,0 +1,11 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.confirmar {
+    @include m.colorGradiente(v.$indigo);
+
+    .acciones {
+        display: flex;
+        justify-content: center;
+    }
+}

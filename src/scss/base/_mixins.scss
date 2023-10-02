@@ -77,3 +77,29 @@
     gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
 }
+
+@mixin colorGradiente($color) {
+        h1 {
+        text-align: center;
+        margin-top: 5rem;
+        font-size: 7rem;
+        background: linear-gradient(to right, $color, lighten($color, 30%));
+        color: transparent;
+        background-clip: text;
+        @include tablet {
+            font-size: 10rem;
+        }
+    }
+
+    .boton {
+        @include boton($color, v.$blanco);
+    }
+
+    a {
+        color: darken($color, 5%);
+        font-weight: 900;
+        &:hover {
+            color: darken($color, 20%)
+        }
+    }
+}
