@@ -157,8 +157,6 @@ class ActiveRecord {
         return $objeto;
     }
 
-
-
     // Identificar y unir los atributos de la BD
     public function atributos() {
         $atributos = [];

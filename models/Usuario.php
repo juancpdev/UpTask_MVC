@@ -22,7 +22,7 @@ class Usuario extends ActiveRecord {
         $this->password = $args['password'] ?? '';
         $this->password2 = $args['password2'] ?? '';
         $this->token = $args['token'] ?? '';
-        $this->confirmado = $args['confirmado'] ?? '';
+        $this->confirmado = $args['confirmado'] ?? 0;
     }
 
     public function validarNuevaCuenta() {
@@ -32,16 +32,50 @@ class Usuario extends ActiveRecord {
         if(!$this->email) {
             self::$alertas['error'][] = "El email es Obligatorio";
         }
-        if(!$this->password) {
+        if((!($this->password) || !($this->password2))) {
             self::$alertas['error'][] = "El password es Obligatorio";
         }
-        if(strlen($this->password <= 6)) {
+        if(strlen($this->password) < 6 || strlen($this->password2) < 6 ) {
             self::$alertas['error'][] = "El password debe contener al menos 6 caracteres";
         }
         if($this->password !== $this->password2) {
             self::$alertas['error'][] = "Los passwords no coinciden";
         }
+        
         return self::$alertas;
     }
+
+    public function validarPassword() {
+        if((!($this->password) || !($this->password2))) {
+            self::$alertas['error'][] = "El password es Obligatorio";
+        }
+        if(strlen($this->password) < 6 || strlen($this->password2) < 6 ) {
+            self::$alertas['error'][] = "El password debe contener al menos 6 caracteres";
+        }
+        if($this->password !== $this->password2) {
+            self::$alertas['error'][] = "Los passwords no coinciden";
+        }
+        
+        return self::$alertas;
+    }
+
+    public function passwordHash() {
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+    }
     
+    public function generarToken() {
+        $this->token = uniqid();
+    }
+
+    public function validarEmail() {
+        if(!$this->email) {
+            self::$alertas['error'][] = "El email es Obligatorio";
+        }
+
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas['error'][] = "Email no válido";
+        }
+
+        return self::$alertas;
+    }
 }
