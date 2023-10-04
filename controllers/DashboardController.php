@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Proyecto;
 use MVC\Router;
 
 class DashboardController {
@@ -10,8 +11,6 @@ class DashboardController {
         // Ingreso solo usuarios logeados
         session_start();
         isAuth();
-
-
 
         $router->render("dashboard/index", [
             "titulo" => "Proyectos"
@@ -22,9 +21,30 @@ class DashboardController {
         // Ingreso solo usuarios logeados
         session_start();
         isAuth();
+        $alertas = [];
+        
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+            $proyecto = new Proyecto($_POST);
+            
+            $alertas = $proyecto->validarProyecto();
+
+            if(empty($alertas)) {
+                // Generar una URL unica
+                $proyecto->url = md5(uniqid());
+
+                // Almacenar el creador del proyecto
+                $proyecto->propietarioId = $_SESSION["id"];
+
+                // Guardar el proyecto
+                $proyecto->guardar();
+
+
+            }
+        }
 
         $router->render("dashboard/crear-proyecto", [ 
-            "titulo" => "Crear Proyecto"
+            "titulo" => "Crear Proyecto",
+            "alertas" => $alertas
         ]);
     }
 
@@ -33,10 +53,11 @@ class DashboardController {
         session_start();
         isAuth();
 
-
         $router->render("dashboard/perfil", [ 
             "titulo" => "Mi Perfil"
         ]);
     }
+
+
     
 }
