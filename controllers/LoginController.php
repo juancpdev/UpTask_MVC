@@ -9,13 +9,41 @@ use MVC\Router;
 class LoginController {
     // LOGIN
     public static function login(Router $router){
-
+        $alertas = [];
+        
         if($_SERVER["REQUEST_METHOD"] === "POST") {
+            $usuario = new Usuario($_POST);
+            $alertas = $usuario->validarLogin();
+            
+            if(empty($alertas)){
+                // Verifica que el usuario exista
+                $usuario = Usuario::where('email', $usuario->email);
+
+                if(!$usuario || !$usuario->confirmado) {
+                    Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
+                } else {
+                    // El usuario existe
+                    if( password_verify($_POST['password'], $usuario->password) ) {
+                        // Iniciar Sesion
+                        session_start();
+                        $_SESSION['id'] = $usuario->id;
+                        $_SESSION['nombre'] = $usuario->nombre;
+                        $_SESSION['email'] = $usuario->email;
+                        $_SESSION['login'] = true;
+
+                        header('Location: /proyectos');
+
+                    } else {
+                        Usuario::setAlerta('error', 'Password Incorrecto');
+                    }
+                }
+            }
             
         }
-
+        $alertas = Usuario::getAlertas();
         $router->render("auth/login", [
-            "titulo" => "Iniciar Sesión"
+            "titulo" => "Iniciar Sesión",
+            "alertas" => $alertas
         ]);
     }
 
@@ -38,21 +66,20 @@ class LoginController {
                 $existeUsuario = $usuario::where('email', $usuario->email);
                 if($existeUsuario) {
                     Usuario::setAlerta('error', 'El email ya está registrado');
-                    $alertas = Usuario::getAlertas();
                 } else {
                     // Hashear Password
                     $usuario->passwordHash();
-
+                    
                     // Eliminar password 2
                     unset($usuario->password2);
-
+                    
                     // Creamos el Token
                     $usuario->generarToken();
-
+                    
                     // Enviar el mail
                     $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
                     $email->enviarConfirmacion();
-
+                    
                     // Crear el usuario
                     $resultado = $usuario->guardar();
                     if($resultado) {
@@ -61,6 +88,7 @@ class LoginController {
                 }
             }
         }
+        $alertas = Usuario::getAlertas();
         $router->render("auth/crear", [
             "titulo" => "Creá tu cuenta",
             "usuario" => $usuario,
@@ -100,7 +128,6 @@ class LoginController {
             } 
         }
         $alertas = Usuario::getAlertas();
-        
         $router->render("auth/olvide", [
             "titulo" => "Olvidé Password",
             "alertas" => $alertas
@@ -140,9 +167,7 @@ class LoginController {
                 }
             }
         }
-
         $alertas = Usuario::getAlertas();
-
         $router->render("auth/reestablecer", [
             "titulo" => "Reestablecer Password",
             "alertas" => $alertas,

@@ -41,7 +41,6 @@ class Usuario extends ActiveRecord {
         if($this->password !== $this->password2) {
             self::$alertas['error'][] = "Los passwords no coinciden";
         }
-        
         return self::$alertas;
     }
 
@@ -74,6 +73,15 @@ class Usuario extends ActiveRecord {
 
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             self::$alertas['error'][] = "Email no válido";
+        }
+
+        return self::$alertas;
+    }
+
+    public function validarLogin() {
+        $this->validarEmail();
+        if(!($this->password) ) {
+            self::$alertas['error'][] = "El password es Obligatorio";
         }
 
         return self::$alertas;
