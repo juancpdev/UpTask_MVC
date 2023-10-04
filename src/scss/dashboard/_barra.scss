@@ -1,0 +1,28 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.barra {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px rgb(104, 103, 103);
+    background-color: v.$blanco;
+    margin-bottom: 5rem;
+    @include m.tablet {
+        flex-direction: row;
+        padding: 0 2rem;
+    }
+    .nombre {
+        color: v.$indigo;
+    }
+
+    .boton {
+        @include m.boton(darken(v.$indigo, 20%), v.$blanco);
+        margin: 0;
+        border-radius: 1rem;
+    }
+}

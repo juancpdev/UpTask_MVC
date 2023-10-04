@@ -29,8 +29,8 @@ class Usuario extends ActiveRecord {
         if(!$this->nombre) {
             self::$alertas['error'][] = "El nombre del Usuario es Obligatorio";
         }
-        if(!$this->email) {
-            self::$alertas['error'][] = "El email es Obligatorio";
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas['error'][] = "Email no válido";
         }
         if((!($this->password) || !($this->password2))) {
             self::$alertas['error'][] = "El password es Obligatorio";
@@ -67,10 +67,6 @@ class Usuario extends ActiveRecord {
     }
 
     public function validarEmail() {
-        if(!$this->email) {
-            self::$alertas['error'][] = "El email es Obligatorio";
-        }
-
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             self::$alertas['error'][] = "Email no válido";
         }
