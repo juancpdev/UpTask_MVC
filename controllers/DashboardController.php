@@ -38,7 +38,7 @@ class DashboardController {
                 // Guardar el proyecto
                 $proyecto->guardar();
 
-
+                header("Location: /proyecto?id=" . $proyecto->url);
             }
         }
 

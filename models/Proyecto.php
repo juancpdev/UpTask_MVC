@@ -4,7 +4,7 @@ namespace Model;
 
 class Proyecto extends ActiveRecord {
     protected static $tabla = 'proyectos';
-    protected static $columasDB = ['id', 'propietarioId', 'url', 'proyecto'];
+    protected static $columnasDB = ['id', 'propietarioId', 'url', 'proyecto'];
 
     public $id;
     public $propietarioId;
