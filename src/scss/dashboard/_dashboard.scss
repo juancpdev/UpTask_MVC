@@ -36,9 +36,12 @@
                     }
                 }
                 .boton {
-                    @include m.boton(v.$indigo, v.$blanco);
-                    text-transform: uppercase;
+                    width: 15rem;
+                    @include m.boton2(v.$indigo, v.$blanco);
                     margin: 3rem 0;
+                    @include m.tablet {
+                        font-size: 1.5rem;
+                    }
                 }
             }
         }

@@ -30,7 +30,6 @@
     color: $colorTexto;
     margin-top: 2rem;
     font-weight: 400;
-    display: inline-block;
     font-weight: 700;
     border: none;
     transition-property: background-color;
@@ -46,7 +45,7 @@
         font-size: 1.6rem;
     }
     &:hover {
-        background-color: darken( $bgColor, 10% );
+        background-color: darken($bgColor, 10% );
         cursor: pointer;
     }
 }
@@ -56,19 +55,19 @@
     justify-content: center;
     align-items: center;
     margin: 3rem 0;
-    width: 100%;
     padding: 1.2rem;
     border: none;
     cursor: pointer;
     background-color: $bgColor;
     color: $colorTexto;
-    font-weight: v.$bold;
+    font-weight: bold;
+    font-size: 1.3rem;
     border-radius: 1rem;
     transition: all .3s ease-in-out;
 
     &:hover {
         transform: scale(.985);
-        background-color: darken($bgColor, 10)
+        background-color: darken($bgColor, 10);
     }
 }
 
