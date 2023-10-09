@@ -4,10 +4,10 @@
 .dashboard {
     display: flex;
     flex-direction: column;
-    background-color: rgb(240, 236, 236);
-    height: 100vh;
+    height: 100%;
     @include m.tablet {
         flex-direction: row;
+        height: 100vh;
     }
 
     .principal {

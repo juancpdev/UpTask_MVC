@@ -1,0 +1,95 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.contenedor-proyecto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5rem;
+
+    .contenedor-tarea {
+        .boton-tarea {
+            @include m.boton2(v.$cyan, v.$blanco);
+            @include m.tablet {
+                padding: 1.3rem 4rem;
+            }
+        }
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.796);
+    
+    .formulario {
+        background-color: white;
+        width: 80%;
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 4rem;
+        border-radius: 1rem;
+        transform: translateY(-30rem);
+        transition: all .3s ease;
+        opacity: 0;
+        &.animar {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 1;
+        }
+        &.cerrar {
+            transform: translateY(-200%);
+            opacity: 0;
+        }
+        legend {
+            width: 100%;
+            text-align: center;
+            font-weight: 700;
+            @include m.tablet {
+                font-size: 2rem;
+            }
+        }
+        .opciones {
+            display: flex;
+            justify-content: space-between;
+
+            input {
+                @include m.boton(v.$azul, v.$blanco);
+                margin: 0;
+                padding: 0;
+                height: 4rem;
+                width: 10rem;
+                border-radius: 1rem;
+                @include m.tablet {
+                    height: auto;
+                    width: 13rem;
+                }
+            }
+            button {
+                @include m.boton(v.$naranja, v.$blanco);
+                margin: 0;
+                padding: 0;
+                height: 4rem;
+                width: 10rem;
+                border-radius: 1rem;
+                @include m.tablet {
+                    height: auto;
+                    width: 13rem;
+                }
+            }
+        }
+    }
+    .campo {
+        .label-tarea {
+            flex: 0 0 6rem;
+        }
+        .input-tarea {
+            min-width: 15rem;
+        }
+    }
+}
