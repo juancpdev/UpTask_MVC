@@ -6,8 +6,8 @@
             <button id="boton-tarea" class="boton-tarea" type="button">+ Nueva Tarea</button>
         </div>
 
-        
-        
+        <ul class="listado-tareas" id="listado-tareas"></ul>
+    
     </div>
 
 <?php include_once __DIR__ . "/footer-dash.php" ?>

@@ -6,13 +6,82 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 5rem;
-
+    max-width: 110rem;
     .contenedor-tarea {
         .boton-tarea {
             @include m.boton2(v.$cyan, v.$blanco);
+            padding: 1.3rem 4rem;
             @include m.tablet {
-                padding: 1.3rem 4rem;
+                padding: 1.5rem 4rem;
+                font-size: 1.4rem;
+            }
+        }
+    }
+
+    .listado-tareas {
+        margin-bottom: 5rem;
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        .vacio {
+            text-align: center;
+        }
+        .tarea {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 2rem;
+            box-shadow: 2px 2px 10px 0 rgb(190, 190, 190);
+            gap: 1rem;
+            padding: 1rem;
+            @include m.telefono {
+                flex-direction: row;
+                padding: 2rem;
+            }
+
+            p {
+                text-align: center;
+                font-size: 1.7rem;
+                @include m.telefono {
+                    text-align: start;
+                }
+            }
+            
+            .opciones {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                @include m.telefono {
+                    margin-bottom: 0;
+                }
+                .btn-tarea {
+                    padding: 0;
+                    border-radius: 2rem;
+                    border: none;
+                    text-transform: uppercase;
+                    color: white;
+                    width: 11rem;
+                    height: 3rem;
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                }
+
+                .pendiente {
+                    background-color: v.$naranja;
+                }
+
+                .completado {
+                    background-color: v.$azul;
+                }
+
+                .btn-eliminar {
+                    background-color: v.$rojo;
+                }
             }
         }
     }
@@ -90,6 +159,7 @@
         }
         .input-tarea {
             min-width: 15rem;
+            border-radius: .5rem;
         }
     }
 }

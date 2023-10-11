@@ -65,14 +65,14 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
-    // Busqueda Where con Columna 
+    // Busqueda Where con Columna (trae el primero)
     public static function where($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
 
-    // Busqueda Where con Columna 
+    // Busqueda Where con Columna (trae todos)
     public static function belongUs($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
         $resultado = self::consultarSQL($query);
