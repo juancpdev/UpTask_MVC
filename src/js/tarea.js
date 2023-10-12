@@ -6,6 +6,7 @@
     const btnTarea = document.querySelector('#boton-tarea');
     btnTarea.addEventListener('click', mostrarModal);
 
+    // OBTENER TAREAS
     async function obtenerTareas() {
         try {
             const idProyecto = obtenerProyecto();
@@ -26,6 +27,7 @@
         "1" : "Completado"
     };
 
+    // MOSTRAR TAREAS
     function mostrarTareas() {
         limpiarTareas();
         if(tareas.length === 0) {
@@ -52,6 +54,9 @@
             btnEstado.classList.add("btn-tarea", `${estado[tarea.estado]}`.toLowerCase());
             btnEstado.textContent = estado[tarea.estado];
             btnEstado.dataset.estadoTarea = tarea.estado;
+            btnEstado.onclick = function() {
+                servicioActualizado({...tarea});
+            };
             
             const btnEliminar = document.createElement("BUTTON");
             btnEliminar.classList.add("btn-tarea", "btn-eliminar");
@@ -68,9 +73,9 @@
             contenedor.appendChild(listado);
 
         });
-        
     }
 
+    // MOSTRAR MODAL
     function mostrarModal() {
         const contenedorModal = document.createElement('DIV');
         contenedorModal.classList.add("modal");
@@ -118,7 +123,6 @@
                     mostrarAlerta('El nombre de la tarea es Obligatorio', 'error', document.querySelector('.div-campo'));
                     return;
                 }
-
                 agregarTarea(tarea);
             }
         });
@@ -176,8 +180,6 @@
 
                 tareas = [...tareas, tareaObj];
                 mostrarTareas();
-
-                console.log(tareaObj);
             }
             
         } catch (error) {
@@ -185,21 +187,47 @@
         }
     }
 
-    
+    // OBTENER PROYECTO
     function obtenerProyecto() {
         const proyectoParams = new URLSearchParams(window.location.search);
-
         const proyecto = Object.fromEntries(proyectoParams.entries());
-
         return proyecto.id;
     }
 
+    // LIMPIAR TAREAS
     function limpiarTareas() {
         const contenedor = document.querySelector("#listado-tareas");
 
         while(contenedor.firstChild) {
             contenedor.removeChild(contenedor.firstChild);
         }
+    }
+
+    function servicioActualizado(tarea) {
+        Swal.fire({
+            icon: 'question',
+            title: '¿Completaste la tarea?',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, completado',
+            cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si el usuario confirma, envía el formulario.
+                cambiarEstadoTarea(tarea);
+            }
+        });
+    }
+
+    // CAMBIAR ESTADO DE TAREA
+    function cambiarEstadoTarea(tarea) {
+
+        const nuevoEstado = tarea.estado === "1" ? "0" : "1";
+        tarea.estado = nuevoEstado;
+        actualizarTarea(tarea);
+    }
+
+    function actualizarTarea(tarea) {
+        
     }
 
 })();

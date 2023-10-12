@@ -13,5 +13,8 @@
 <?php include_once __DIR__ . "/footer-dash.php" ?>
 
 <?php 
-    $script = '<script src="build/js/tarea.js"></script>';    
+    $script = "
+        <script src='build/js/tarea.js'></script>
+        <script src='//cdn.jsdelivr.net/npm/sweetalert2@10'></script>
+        ";    
 ?>
