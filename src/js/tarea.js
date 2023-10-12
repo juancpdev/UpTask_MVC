@@ -1,5 +1,4 @@
 (function() {
-
     obtenerTareas();
     let tareas = [];
 
@@ -55,7 +54,11 @@
             btnEstado.textContent = estado[tarea.estado];
             btnEstado.dataset.estadoTarea = tarea.estado;
             btnEstado.onclick = function() {
-                servicioActualizado({...tarea});
+                if(btnEstado.classList.contains("pendiente")) {
+                    tareaCompletado({...tarea});
+                } else if(btnEstado.classList.contains("completado")) { 
+                    tareaPendiente({...tarea});
+                }
             };
             
             const btnEliminar = document.createElement("BUTTON");
@@ -166,10 +169,9 @@
 
             if(resultado.tipo === "exito") {
                 const modal = document.querySelector(".modal");
-                setTimeout(() => {
-                    modal.remove();
-                }, 1000);
-
+                modal.remove();
+                tareaCreada();
+                
                 // Agregar el objeto de tarea al global de tareas
                 const tareaObj = {
                     id: String(resultado.id),
@@ -203,21 +205,6 @@
         }
     }
 
-    function servicioActualizado(tarea) {
-        Swal.fire({
-            icon: 'question',
-            title: '¿Completaste la tarea?',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, completado',
-            cancelButtonText: 'No, cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Si el usuario confirma, envía el formulario.
-                cambiarEstadoTarea(tarea);
-            }
-        });
-    }
-
     // CAMBIAR ESTADO DE TAREA
     function cambiarEstadoTarea(tarea) {
 
@@ -226,8 +213,42 @@
         actualizarTarea(tarea);
     }
 
-    function actualizarTarea(tarea) {
-        
+    async function actualizarTarea(tarea) {
+        const {id, nombre, estado, proyectoId} = tarea;
+
+        // Construir la peticion
+        const datos = new FormData();
+        datos.append("id", id);
+        datos.append("nombre", nombre);
+        datos.append("estado", estado);
+        datos.append("proyectoId", obtenerProyecto());
+
+        try {
+            const url = 'http://localhost:3001/api/tareas/actualizar';
+            const respuesta = await fetch(url, {
+                method: 'POST',
+                body: datos
+            });
+            
+            const resultado = await respuesta.json();
+
+            if(resultado.respuesta.tipo === "exito") {
+                tareas = tareas.map(tareaMemoria => {
+                    if(tareaMemoria.id === id) {
+                        tareaMemoria.estado = estado;
+                    }
+                    return tareaMemoria;
+                });
+                mostrarTareas();
+            }
+
+            
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
+    // Exponer la función al objeto global
+    window.cambiarEstadoTarea = cambiarEstadoTarea;
 })();

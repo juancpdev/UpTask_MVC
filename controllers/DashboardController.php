@@ -42,13 +42,15 @@ class DashboardController {
                 // Guardar el proyecto
                 $proyecto->guardar();
 
-                header("Location: /proyecto?id=" . $proyecto->url);
+                $proyectoCreado = true;
             }
         }
 
         $router->render("dashboard/crear-proyecto", [ 
             "titulo" => "Crear Proyecto",
-            "alertas" => $alertas
+            "alertas" => $alertas,
+            "proyectoCreado" => $proyectoCreado ?? false,
+            "urlProyecto" => $proyecto->url ?? null
         ]);
     }
 
