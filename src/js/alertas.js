@@ -38,6 +38,23 @@ function tareaPendiente(tarea) {
     });
 }
 
+function confirmarEliminarTarea(tarea) {
+    Swal.fire({
+        title: 'Confirmación',
+        text: '¿Estás seguro de que deseas eliminar esta tarea?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            EliminarTarea(tarea);
+        }
+    });
+}
+
 
 function proyectoCreado(e) {
     e.preventDefault(); // Detiene la acción por defecto del formulario

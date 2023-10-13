@@ -65,6 +65,9 @@
             btnEliminar.classList.add("btn-tarea", "btn-eliminar");
             btnEliminar.textContent = "Eliminar";
             btnEliminar.dataset.idTarea = tarea.id;
+            btnEliminar.onclick = function() { 
+                confirmarEliminarTarea({...tarea});
+            }
             
             opciones.appendChild(btnEstado);
             opciones.appendChild(btnEliminar);
@@ -246,9 +249,41 @@
         } catch (error) {
             console.log(error);
         }
+    }
 
+    async function EliminarTarea(tarea) {
+        const {id, nombre, estado} = tarea;
+
+        // Construir la peticion
+        const datos = new FormData();
+        datos.append("id", id);
+        datos.append("nombre", nombre);
+        datos.append("estado", estado);
+        datos.append("proyectoId", obtenerProyecto());
+
+        try {
+            const url = 'http://localhost:3001/api/tareas/eliminar';
+            const respuesta = await fetch(url, {
+                method: 'POST',
+                body: datos
+            });
+            
+            const resultado = await respuesta.json();
+
+            if(resultado.resultado) {
+                Swal.fire('Eliminado!', resultado.mensaje, 'success');
+
+                tareas = tareas.filter( tareaMemoria => tareaMemoria.id !== tarea.id);
+                mostrarTareas();
+            }
+
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // Exponer la función al objeto global
     window.cambiarEstadoTarea = cambiarEstadoTarea;
+    window.EliminarTarea = EliminarTarea;
 })();

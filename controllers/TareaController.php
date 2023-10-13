@@ -66,6 +66,7 @@ class TareaController {
                     'mensaje' => 'Hubo un error al agregar la tarea'
                 ];
                 echo json_encode($respuesta);
+                return;
             }
 
             // OK, instanciar y actualizar la tarea
@@ -87,7 +88,30 @@ class TareaController {
     // ELIMINAR
     public static function eliminar() {
         if($_SERVER["REQUEST_METHOD"] === "POST") {
-                    
+
+            session_start();
+            
+            $proyecto = Proyecto::where('url', $_POST['proyectoId']);
+
+            if(!$proyecto || ($_SESSION["id"] !== $proyecto->propietarioId)) {
+                $respuesta = [
+                    'tipo' => 'error',
+                    'mensaje' => 'Hubo un error al agregar la tarea'
+                ];
+                echo json_encode($respuesta);
+                return;
+            }
+
+            // OK, instanciar y eliminar la tarea
+            $tarea = new Tarea($_POST);
+            $resultado = $tarea->eliminar();
+
+            $resultado = [
+                'resultado' => $resultado,
+                'mensaje' => 'Eliminado Correctamente'
+            ];
+
+            echo json_encode($resultado);
         }
     }
 }
