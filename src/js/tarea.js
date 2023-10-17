@@ -3,7 +3,9 @@
     let tareas = [];
 
     const btnTarea = document.querySelector('#boton-tarea');
-    btnTarea.addEventListener('click', mostrarModal);
+    btnTarea.addEventListener('click', function() {
+        mostrarModal();
+    });
 
     // OBTENER TAREAS
     async function obtenerTareas() {
@@ -45,6 +47,9 @@
             listado.dataset.tareaId = tarea.id;
             listado.classList.add("tarea");
             nombreTarea.innerHTML = `${tarea.nombre}`;
+            nombreTarea.onclick = function() {
+                mostrarModal(editar = true, {...tarea});
+            };
             
             const opciones = document.createElement("DIV");
             opciones.classList.add("opciones");
@@ -82,12 +87,12 @@
     }
 
     // MOSTRAR MODAL
-    function mostrarModal() {
+    function mostrarModal(editar = false, tarea = {}) {
         const contenedorModal = document.createElement('DIV');
         contenedorModal.classList.add("modal");
         contenedorModal.innerHTML = `
             <form class='formulario nueva-tarea'>
-                <legend>Añadir una nueva Tarea</legend>
+                <legend>${editar ? "Editar Tarea" : "Añade una nueva tarea"}</legend>
                 
                 <div class="campo div-campo">
                     <label for="tarea" class="label-tarea">Tarea:</label>
@@ -96,10 +101,16 @@
                         name="tarea" 
                         id="tarea"
                         class="input-tarea" 
-                        placeholder="Nueva Tarea"/>
+                        placeholder="${editar ? 'Editar Tarea' : 'Nueva tarea'}"
+                        value = "${tarea.nombre ? tarea.nombre : ''}"
+                        />
                 </div>
                 <div class="opciones">
-                    <input type="submit" class="enviar-nueva-tarea" value="Añadir" />
+                    <input 
+                        type="submit" 
+                        class="enviar-nueva-tarea" 
+                        value="${editar ? 'Guardar' : 'Añadir'}"
+                        />
                     <button class="cerrar-modal" type="button">Cancelar</button>
                 </div>
             </form>
@@ -123,13 +134,20 @@
             }
 
             if(e.target.classList.contains('enviar-nueva-tarea')) { 
-                const tarea = document.querySelector('.input-tarea').value.trim();
+                const nombreTarea = document.querySelector('.input-tarea').value.trim();
 
-                if(tarea === '') {
+                if(nombreTarea === '') {
                     mostrarAlerta('El nombre de la tarea es Obligatorio', 'error', document.querySelector('.div-campo'));
                     return;
                 }
-                agregarTarea(tarea);
+
+                if(editar) {
+                    tarea.nombre = nombreTarea;
+                    actualizarTarea(tarea);
+                } else {
+                    agregarTarea(nombreTarea);
+                }
+                
             }
         });
     }
@@ -236,9 +254,17 @@
             const resultado = await respuesta.json();
 
             if(resultado.respuesta.tipo === "exito") {
+                
+                tareaActualizada();
+                const modal = document.querySelector(".modal");
+                if(modal) {
+                    modal.remove();
+                }
+                
                 tareas = tareas.map(tareaMemoria => {
                     if(tareaMemoria.id === id) {
                         tareaMemoria.estado = estado;
+                        tareaMemoria.nombre = nombre;
                     }
                     return tareaMemoria;
                 });

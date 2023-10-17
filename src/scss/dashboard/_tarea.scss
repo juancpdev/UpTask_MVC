@@ -49,6 +49,9 @@
                 @include m.telefono {
                     text-align: start;
                 }
+                &:hover {
+                    cursor: pointer;
+                }
             }
             
             .opciones {

@@ -8,6 +8,15 @@ function tareaCreada() {
     })
 }
 
+function tareaActualizada() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Tarea Actualizada',
+        text: 'La tarea fue actualizada correctamente!',
+        confirmButtonText: 'OK'
+    })
+}
+
 function tareaCompletado(tarea) {
     Swal.fire({
         icon: 'question',
