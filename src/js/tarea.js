@@ -360,7 +360,10 @@
                 Swal.fire('Eliminado!', resultado.mensaje, 'success');
 
                 tareas = tareas.filter( tareaMemoria => tareaMemoria.id !== tarea.id);
+
+                filtradas = [];
                 mostrarTareas();
+                document.getElementById("todas").checked = true;
             }
 
             
