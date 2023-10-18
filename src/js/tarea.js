@@ -1,11 +1,28 @@
 (function() {
     obtenerTareas();
     let tareas = [];
+    let filtradas = [];
 
     const btnTarea = document.querySelector('#boton-tarea');
     btnTarea.addEventListener('click', function() {
         mostrarModal();
     });
+
+    // Filtrar Tareas por estado
+    const filtros = document.querySelectorAll('.filtros-input input[type="radio"]');
+    filtros.forEach( radio => {
+        radio.addEventListener('input', filtrarTareas);
+    })
+
+    function filtrarTareas(e) {
+        const filtro = e.target.value;
+        if(filtro !== "") {
+            filtradas = tareas.filter( tarea => tarea.estado === filtro);
+        } else {
+            filtradas = [];
+        }
+        mostrarTareas();
+    }
 
     // OBTENER TAREAS
     async function obtenerTareas() {
@@ -31,7 +48,12 @@
     // MOSTRAR TAREAS
     function mostrarTareas() {
         limpiarTareas();
-        if(tareas.length === 0) {
+        totalPendientes();
+        totalCompletado();
+
+        const arrayLenght = filtradas.length ? filtradas : tareas;
+
+        if(arrayLenght.length === 0) {
             const contenedor = document.querySelector("#listado-tareas");
             const vacio = document.createElement("P");
             vacio.classList.add("vacio");
@@ -40,7 +62,7 @@
             return;
         }
         
-        tareas.forEach(tarea => {
+        arrayLenght.forEach(tarea => {
             const listado = document.createElement("LI");
             const nombreTarea = document.createElement("P");
 
@@ -86,6 +108,39 @@
         });
     }
 
+    // TOTAL PENDIENTES
+    function totalPendientes() {
+        const totalPendientes = tareas.filter( tarea => tarea.estado === "0");
+        const pendientesRadio = document.querySelector('#pendientes');
+        const pendientesLabel = document.querySelector('#label-pendiente');
+
+        if(totalPendientes == "") {
+            pendientesRadio.disabled = true;
+            pendientesRadio.style.cursor = "not-allowed";
+            pendientesLabel.style.cursor = "not-allowed";
+        } else {
+            pendientesRadio.disabled = false;
+            pendientesRadio.style.cursor = "pointer";
+            pendientesLabel.style.cursor = "pointer";
+        }
+    }
+    // TOTAL COMPLETADOS
+    function totalCompletado() {
+        const totalCompletado = tareas.filter( tarea => tarea.estado === "1");
+        const completadoRadio = document.querySelector('#completado');
+        const completadoLabel = document.querySelector('#label-completado');
+
+        if(totalCompletado == "") {
+            completadoRadio.disabled = true;
+            completadoRadio.style.cursor = "not-allowed";
+            completadoLabel.style.cursor = "not-allowed";
+        } else {
+            completadoRadio.disabled = false;
+            completadoRadio.style.cursor = "pointer";
+            completadoLabel.style.cursor = "pointer";
+        }
+    }
+
     // MOSTRAR MODAL
     function mostrarModal(editar = false, tarea = {}) {
         const contenedorModal = document.createElement('DIV');
@@ -116,6 +171,7 @@
             </form>
             `;
         document.querySelector('.dashboard').appendChild(contenedorModal);
+        document.body.classList.add('no-scroll');
 
         setTimeout(() =>{
             const formu = document.querySelector('.formulario');
@@ -130,6 +186,7 @@
                 formu.classList.add('cerrar');
                 setTimeout(() =>{
                     contenedorModal.remove();
+                    document.body.classList.remove('no-scroll');
                 }, 200);
             }
 
@@ -184,7 +241,6 @@
             });
             
             const resultado = await respuesta.json();
-            console.log(resultado);
 
             mostrarAlerta(resultado.mensaje, resultado.tipo, document.querySelector('.div-campo'));
 
@@ -192,6 +248,10 @@
                 const modal = document.querySelector(".modal");
                 modal.remove();
                 tareaCreada();
+                
+                filtradas = [];
+                mostrarTareas();
+                document.getElementById("todas").checked = true;
                 
                 // Agregar el objeto de tarea al global de tareas
                 const tareaObj = {
