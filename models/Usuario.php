@@ -82,4 +82,15 @@ class Usuario extends ActiveRecord {
 
         return self::$alertas;
     }
+
+    public function validar_perfil() {
+        if(!$this->nombre) {
+            self::$alertas['error'][] = "El nombre del Usuario es Obligatorio";
+        }
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            self::$alertas['error'][] = "Email no válido";
+        }
+
+        return self::$alertas;
+    }
 }

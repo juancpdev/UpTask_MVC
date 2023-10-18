@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Proyecto;
+use Model\Usuario;
 use MVC\Router;
 
 class DashboardController {
@@ -77,12 +78,54 @@ class DashboardController {
         // Ingreso solo usuarios logeados
         session_start();
         isAuth();
+        $alertas = [];
+
+        $usuario = Usuario::find($_SESSION['id']);
+
+
+        if($_SERVER["REQUEST_METHOD"] === "POST") { 
+            $usuario->sincronizar($_POST);
+            
+            $alertas = $usuario->validar_perfil();
+
+            if(empty($alertas)) {
+
+                $existeUsuario = Usuario::where('email', $usuario->email);
+                if($existeUsuario && $existeUsuario->id !== $usuario->id) {
+                    Usuario::setAlerta('error', 'Email no válido, ya pertenece a otra cuenta');
+                    $alertas = $usuario->getAlertas();
+                } else {    
+                    $usuario->guardar();
+                    $_SESSION["nombre"] = $usuario->nombre;
+                    $perfilActualizado = true;
+                }
+            }
+        }
 
         $router->render("dashboard/perfil", [ 
-            "titulo" => "Mi Perfil"
+            "titulo" => "Mi Perfil",
+            "alertas" => $alertas,
+            "nombre" => $usuario->nombre,
+            "email" => $usuario->email,
+            "perfilActualizado" => $perfilActualizado ?? false
         ]);
     }
 
 
-    
+    public static function cambiar_password(Router $router) { 
+        // Ingreso solo usuarios logeados
+        session_start();
+        isAuth();
+        $alertas = [];
+
+        if($_SERVER["REQUEST_METHOD"] === "POST") { 
+            $usuario = Usuario::find($_SESSION["id"]);
+
+            debuguear($usuario);
+        }
+
+        $router->render("dashboard/cambiar-password", [ 
+            "titulo" => "Cambiar Password"
+        ]);
+    }
 }
