@@ -11,6 +11,8 @@ class Usuario extends ActiveRecord {
     public $email;
     public $password;
     public $password2;
+    public $password_actual;
+    public $password_nuevo;
     public $token;
     public $confirmado;
     
@@ -21,6 +23,8 @@ class Usuario extends ActiveRecord {
         $this->email = $args['email'] ?? '';
         $this->password = $args['password'] ?? '';
         $this->password2 = $args['password2'] ?? '';
+        $this->password_actual = $args['password_actual'] ?? '';
+        $this->password_nuevo = $args['password_nuevo'] ?? '';
         $this->token = $args['token'] ?? '';
         $this->confirmado = $args['confirmado'] ?? 0;
     }
@@ -91,6 +95,17 @@ class Usuario extends ActiveRecord {
             self::$alertas['error'][] = "Email no válido";
         }
 
+        return self::$alertas;
+    }
+
+    public function verificar_cambioPass() {
+        if((!($this->password_actual) || !($this->password_nuevo))) {
+            self::$alertas['error'][] = "Los passwords son Obligatorio";
+        }
+        if(strlen($this->password_actual) < 6 || strlen($this->password_nuevo) < 6 ) {
+            self::$alertas['error'][] = "El password debe contener al menos 6 caracteres";
+        }
+        
         return self::$alertas;
     }
 }

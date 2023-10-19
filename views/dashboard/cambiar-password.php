@@ -1,5 +1,5 @@
 <?php 
-if (isset($passctualizado) && $passActualizado) {
+if (isset($passActualizado) && $passActualizado) {
     echo "
     <script>
         window.onload = function() {
@@ -25,14 +25,14 @@ if (isset($passctualizado) && $passActualizado) {
 
         <form method="POST" class="formulario" action="/cambiar-password">
             <div class="campo">
-                <label for="password_actual">Password Actual: </label>
+                <label for="password_actual">Actual: </label>
                 <input 
                     type="password" 
                     name="password_actual" 
                     placeholder="Tu password Actual">
             </div>
             <div class="campo">
-                <label for="password_nuevo">Password Actual: </label>
+                <label for="password_nuevo">Nuevo: </label>
                 <input 
                     type="password" 
                     name="password_nuevo" 

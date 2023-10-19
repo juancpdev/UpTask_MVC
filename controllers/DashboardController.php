@@ -120,12 +120,40 @@ class DashboardController {
 
         if($_SERVER["REQUEST_METHOD"] === "POST") { 
             $usuario = Usuario::find($_SESSION["id"]);
+            $usuario->sincronizar($_POST);
 
-            debuguear($usuario);
+            // Verificamos si no hay errores al cambiar los password
+            $alertas = $usuario->verificar_cambioPass();
+
+            if(empty($alertas)){ 
+            
+                if (!password_verify($usuario->password_actual, $usuario->password)) {
+                    // Error
+                    Usuario::setAlerta("error", "Password Incorrecto");
+                    $alertas = $usuario->getAlertas();
+                } else {
+                    // Exito
+                    $usuario->password = $usuario->password_nuevo;
+                    
+                    // Eliminamos propiedades no necesarias
+                    unset($usuario->password_actual);
+                    unset($usuario->password_nuevo);
+                    
+                    // Hash pass
+                    $usuario->passwordHash();
+                    
+                    // Actualizamos el pass
+                    $usuario->guardar();
+
+                    $passActualizado = true;
+                }
+            }
         }
 
         $router->render("dashboard/cambiar-password", [ 
-            "titulo" => "Cambiar Password"
+            "titulo" => "Cambiar Password",
+            "alertas" => $alertas,
+            "passActualizado" => $passActualizado ?? false
         ]);
     }
 }
