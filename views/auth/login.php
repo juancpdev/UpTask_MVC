@@ -7,7 +7,7 @@
         
         <form action="/" method="POST" class="formulario" novalidate>
             <div class="campo">
-                <label for="email">Email</label>
+                <label for="email">Email:</label>
                 <input 
                     type="email" 
                     name="email" 
@@ -15,7 +15,7 @@
                     placeholder="Tu Email">
             </div>
             <div class="campo">
-                <label for="password">Password</label>
+                <label for="password">Password:</label>
                 <input 
                     type="password" 
                     name="password" 

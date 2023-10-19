@@ -7,7 +7,7 @@
 
         <form action="/olvide" method="POST" class="formulario" novalidate>
             <div class="campo">
-                <label for="email">Email</label>
+                <label for="email">Email:</label>
                 <input 
                     type="email" 
                     name="email" 

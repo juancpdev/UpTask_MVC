@@ -116,17 +116,19 @@ class DashboardController {
         // Ingreso solo usuarios logeados
         session_start();
         isAuth();
+
         $alertas = [];
 
         if($_SERVER["REQUEST_METHOD"] === "POST") { 
             $usuario = Usuario::find($_SESSION["id"]);
+
+            // Sincronizar con los datos del usuario
             $usuario->sincronizar($_POST);
 
             // Verificamos si no hay errores al cambiar los password
-            $alertas = $usuario->verificar_cambioPass();
+            $alertas = $usuario->nuevo_password();
 
             if(empty($alertas)){ 
-            
                 if (!password_verify($usuario->password_actual, $usuario->password)) {
                     // Error
                     Usuario::setAlerta("error", "Password Incorrecto");

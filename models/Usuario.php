@@ -98,7 +98,7 @@ class Usuario extends ActiveRecord {
         return self::$alertas;
     }
 
-    public function verificar_cambioPass() {
+    public function nuevo_password() {
         if((!($this->password_actual) || !($this->password_nuevo))) {
             self::$alertas['error'][] = "Los passwords son Obligatorio";
         }

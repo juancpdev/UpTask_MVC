@@ -7,7 +7,7 @@
 
         <form action="/crear" method="POST" class="formulario" novalidate>
             <div class="campo">
-                    <label for="nombre">Nombre</label>
+                    <label for="nombre">Nombre:</label>
                     <input 
                         type="text" 
                         name="nombre" 
@@ -16,7 +16,7 @@
                         value="<?php echo $usuario->nombre; ?>">
                 </div>
             <div class="campo">
-                <label for="email">Email</label>
+                <label for="email">Email:</label>
                 <input 
                     type="email" 
                     name="email" 
@@ -25,7 +25,7 @@
                     value="<?php echo $usuario->email; ?>">
             </div>
             <div class="campo">
-                <label for="password">Password</label>
+                <label for="password">Password:</label>
                 <input 
                     type="password" 
                     name="password" 
@@ -33,7 +33,7 @@
                     placeholder="Tu Password">
             </div>
             <div class="campo">
-                <label for="password2">Confirmar</label>
+                <label for="password2">Confirmar:</label>
                 <input 
                     type="password" 
                     name="password2" 

@@ -1,0 +1,157 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+@media (prefers-color-scheme: dark) {
+    $grisOscuro: #2c2c3b;
+    $grisClaro: rgb(216, 215, 215);
+    body {
+        background-color: $grisOscuro;
+    }
+
+    // LOGIN, CREAR Y OLVIDE
+    .tagline {
+        color: rgb(216, 215, 215);
+    }
+
+    .descripcion-pagina { 
+        color: white;
+    }
+
+    .campo {
+        label {
+     color: $grisClaro;
+        }
+    }
+
+    .login .acciones {
+        p {
+            color: $grisClaro;
+        }
+        a {
+            color: v.$cyan;
+            &:hover {
+                color: darken(v.$cyan, 5%);
+            }
+        }
+    }
+
+    .crear .acciones {
+        p {
+            color: $grisClaro;
+        }
+        a {
+            color: lighten(v.$indigo, 10%);
+            &:hover {
+                color: lighten(v.$indigo, 5%);
+            }
+        }
+    }
+
+    .olvide .acciones {
+        p {
+            color: $grisClaro;
+        }
+        a {
+            color: v.$rosa;
+            &:hover {
+                color: darken(v.$rosa, 10%);
+            }
+        }
+    }
+    
+    // PRINCIPAL
+    .contenido {
+        h3 {
+            color: $grisClaro;
+        }
+    }
+
+    // DASHBOARD
+    .sidebar {
+        background-color: darken($grisOscuro, 8%);
+    }
+
+    .sidebar ul li .activo { 
+        background-color: darken(v.$naranja, 5%);
+    }
+    .sidebar ul li .enlace:hover {
+        &:hover {
+            background-color: v.$naranja;
+        }
+    }
+
+    // BARRA
+    .barra, .barra-mobile {
+        background-color: darken($grisOscuro, 5%);
+        box-shadow: 0 0 10px #2b2b2b;
+        
+        p {
+            color: $grisClaro;
+        }
+        .nombre {
+            color: v.$naranja;
+        }
+        .boton {
+            background-color: darken(v.$naranja, 5%);
+            &:hover {
+                background-color: darken(v.$naranja, 10%);
+            }
+        }
+    }
+
+    .contenedor-boton-mobile a { 
+        background-color: darken(v.$naranja, 5%);
+        &:hover {
+            background-color: darken(v.$naranja, 10%);
+        }
+    }
+    
+    // PROYECTOS
+    .seccion-proyectos .contenedor-proyectos .proyecto { 
+        box-shadow: 0 0 5px 1px #00000044;
+        background-color: lighten($grisOscuro, 10%);
+        &:hover {
+            background-color: lighten($grisOscuro, 20%);
+        }
+    }
+
+    .dashboard .principal .contenido .contenedor-sm .formulario .campo input { 
+        background-color: lighten($grisOscuro, 20%);
+        color: white;
+    }
+
+    // TAREAS
+    .contenedor-proyecto .filtros { 
+        box-shadow: 0 0 5px 1px #00000044;
+        background-color: lighten($grisOscuro, 10%);
+    }
+    .contenedor-proyecto .filtros .filtros-input h2 { 
+        color: $grisClaro;
+    }
+    .contenedor-proyecto .filtros .filtros-input .campo input {
+        accent-color: v.$naranja;
+    }
+    .contenedor-proyecto .listado-tareas .tarea {
+        box-shadow: 0 0 5px 1px #00000044;
+        background-color: lighten($grisOscuro, 10%);
+
+        p {
+            color: $grisClaro;
+        }
+    }
+    
+    // MODAL
+    .modal .formulario.animar { 
+        background-color: $grisOscuro;
+        legend {
+            color: $grisClaro;
+        }
+    }
+    .formulario .campo input { 
+        background-color: lighten($grisOscuro, 20%);
+        color: white;
+        &::placeholder {
+            color: rgb(155, 155, 155);
+        }
+    }
+}

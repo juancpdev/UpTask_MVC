@@ -3,4 +3,5 @@
 
 .crear {
     @include m.colorGradiente(v.$morado);
+    padding-bottom: 10rem;
 }
