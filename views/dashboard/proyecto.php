@@ -1,6 +1,23 @@
 <?php include_once __DIR__ . "/header-dash.php" ?>
-    <h3> <?php echo $proyecto->proyecto ?> </h3>
+    <div class="proyecto-principal">
+        <h3> <?php echo $proyecto->proyecto ?> </h3>
 
+        <div class="eliminar-proyecto">
+            <form method="POST" action="/eliminar-proyecto" id="formEliminarProyecto-<?php echo $proyecto->id; ?>">
+                <input 
+                    type="hidden" 
+                    name="id" 
+                    value="<?php echo $proyecto->id; ?>">
+                <button 
+                    type="submit" 
+                    class="btn-rojo-chico" 
+                    onclick="confirmDelete(event, 'formEliminarProyecto-<?php echo $proyecto->id; ?>')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </form>
+        </div>
+
+    </div>
     <div class="contenedor-sm contenedor-proyecto">
         <div class="contenedor-tarea">
             <button id="boton-tarea" class="boton-tarea" type="button">+ Nueva Tarea</button>
@@ -51,5 +68,6 @@
         <script src='//cdn.jsdelivr.net/npm/sweetalert2@10'></script>
         <script src='build/js/tarea.js'></script>
         <script src='build/js/alertas.js'></script>
+        <script src='https://kit.fontawesome.com/d74a8aa5fa.js' crossorigin='anonymous'></script>
     ";    
 ?>

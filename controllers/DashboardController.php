@@ -55,6 +55,21 @@ class DashboardController {
         ]);
     }
 
+    // ELIMINAR
+    public static function eliminar( ) {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if($_SERVER["REQUEST_METHOD"] === "POST") { 
+            $id = $_POST["id"];
+            $proyecto = Proyecto::find($id);
+            $proyecto->eliminar();
+            header( 'Location: /dashboard');
+        }
+
+    } 
+
     public static function proyecto(Router $router) {
         // Ingreso solo usuarios logeados
         session_start();

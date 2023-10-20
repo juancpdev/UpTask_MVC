@@ -1,6 +1,40 @@
 @use 'base/mixins' as m;
 @use 'base/variables' as v;
 
+.proyecto-principal {
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    @include m.tablet {
+        gap: 3rem;
+    }
+    
+    h3 {
+        margin: 0 !important;
+    }
+
+    .btn-rojo-chico {
+        @include m.boton2(red, white);
+        height: 3rem;
+        width: 3rem;
+        margin: 0;
+        &:hover {
+            transform: none;
+        }
+        @include m.tablet {
+            height: 4rem;
+            width: 4rem;
+        }
+        i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
 .contenedor-proyecto {
     display: flex;
     justify-content: center;
@@ -105,11 +139,16 @@
                     border: none;
                     text-transform: uppercase;
                     color: white;
-                    width: 11rem;
+                    width: 9rem;
                     height: 3rem;
-                    font-size: 1.3rem;
+                    font-size: 1.1rem;
                     font-weight: 700;
                     cursor: pointer;
+
+                    @include m.telefono {
+                        width: 11rem;
+                        font-size: 1.3rem;
+                    }
                 }
 
                 .pendiente {
