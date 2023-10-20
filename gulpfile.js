@@ -78,3 +78,4 @@ exports.serve = serve;
 exports.css = css;
 exports.watchArchivos = watchArchivos;
 exports.default = series(parallel(css, javascript, imagenes, versionWebp), serve);
+exports.build = parallel(css, javascript,  imagenes, versionWebp); 

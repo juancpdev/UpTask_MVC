@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp && gulp serve"
+    "dev": "gulp && gulp serve",
+    "build": "gulp build"
   },
   "author": "",
   "license": "ISC",
